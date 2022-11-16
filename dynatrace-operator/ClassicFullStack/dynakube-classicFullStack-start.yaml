@@ -154,7 +154,7 @@ spec:
     # Defaults to the latest ActiveGate image on the tenant's registry
     # Example: "ENVIRONMENTID.live.dynatrace.com/linux/activegate:latest"
     #
-    image: ""
+    # image: ""
 
     # Optional: Sets how many ActiveGate pods are spawned by the StatefulSet
     # Defaults to "1"
