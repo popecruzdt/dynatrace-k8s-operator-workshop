@@ -67,7 +67,7 @@ spec:
       # Optional: Sets the URI for the image containing the OneAgent installer used by the DaemonSet
       # Defaults to the latest OneAgent image on the tenant's registry
       #
-      image:
+      # image:
 
       # Optional: Sets a node selector to control on which nodes the OneAgent will be deployed.
       # For more information on node selectors, see https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
@@ -122,8 +122,11 @@ spec:
       #   custom: label
 
       # Optional: Adds additional environment variables to OneAgent pods
-      #
-      # env: []
+      # ONEAGENT_ENABLE_VOLUME_STORAGE is required for Google GKE
+      # https://www.dynatrace.com/support/help/shortlink/dto-params-k8s#distro
+      env:
+        - name: ONEAGENT_ENABLE_VOLUME_STORAGE
+          value: "true"
 
       # Optional: Adds arguments to add to the OneAgent installer
       # For a list of available options, see https://www.dynatrace.com/support/help/shortlink/linux-custom-installation
@@ -195,7 +198,7 @@ spec:
 
     # Optional: Sets the activation group for ActiveGate instances
     #
-    # group: ""
+    group: my-cluster-name
 
     # Optional: Defines a custom properties file providing either as a value or as a reference to a secret
     # If a reference to a secret is used, the key to the data must be 'customProperties'
