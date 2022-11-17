@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: springboot
+  name: springboot
+  namespace: springio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: springboot
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application: springboot
+        tier: java
+      name: springboot
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: -Xms128m -Xmx256m
+        image: springio/gs-spring-boot-docker
+        imagePullPolicy: IfNotPresent
+        name: springboot
+        resources:
+          requests:
+            memory: "150Mi"
+          limits:
+            memory: "300Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: rabbit
+  name: rabbit
+  namespace: springio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: rabbit
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application: rabbit
+        tier: mq
+      name: rabbit
+    spec:
+      containers:
+      - image: springio/spring-rabbit-base
+        imagePullPolicy: IfNotPresent
+        name: rabbit
+        resources:
+          requests:
+            memory: "75Mi"
+          limits:
+            memory: "150Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    application: neo4j
+  name: neo4j
+  namespace: springio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: neo4j
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application: neo4j
+        tier: graph-db
+      name: neo4j
+    spec:
+      containers:
+      - image: springio/spring-neo-base
+        imagePullPolicy: IfNotPresent
+        name: neo4j
+        resources:
+          requests:
+            memory: "500Mi"
+          limits:
+            memory: "775Mi"
