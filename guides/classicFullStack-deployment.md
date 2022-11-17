@@ -36,6 +36,8 @@ Create an API token in your Dynatrace environment and enable the following permi
 * Write settings (settings.write)
 
 ### Deploy Dynatrace Operator using the automated mode
+![classicFullStack](/guides/img/classicFullStack/deploy_dynatrace_kubernetes.png)
+
 1. In the Dynatrace menu, go to Kubernetes.
 
 2. Select Connect automatically via Dynatrace Operator.
