@@ -24,3 +24,32 @@ Dynatrace Activegate is used for routing, as well as for monitoring Kubernetes o
 Dynatrace webhook server validates Dynakube definitions for correctness.
 
 Note: Classic full-stack injection requires write access from the OneAgent pod to the Kubernetes node filesystem to detect and inject into newly deployed containers.
+
+### Tokens and Permissions
+https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8#tokens
+Create an API token in your Dynatrace environment and enable the following permissions:
+* Access problem and event feed, metrics, and topology (DataExport)
+* PaaS integration - Installer download (InstallerDownload)
+* Create ActiveGate tokens (activeGateTokenManagement.create)
+* Read entities (entities.read)
+* Read settings (settings.read)
+* Write settings (settings.write)
+
+### Deploy Dynatrace Operator using the automated mode
+1. In the Dynatrace menu, go to Kubernetes.
+
+2. Select Connect automatically via Dynatrace Operator.
+
+3. Enter the following details.
+
+Name: Defines the display name of your Kubernetes cluster
+
+Group: Defines a group that will be used for network zone, ActiveGate group, and host group
+
+Dynatrace Operator token: Enter the API token you created in Prerequisites
+
+For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
+
+Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
+
+To see the deployment status, select Show deployment status.
