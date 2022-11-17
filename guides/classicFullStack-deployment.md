@@ -43,14 +43,10 @@ Create an API token in your Dynatrace environment and enable the following permi
 2. Select Connect automatically via Dynatrace Operator.
 
 3. Enter the following details.
-
-Name: Defines the display name of your Kubernetes cluster
-
-Group: Defines a group that will be used for network zone, ActiveGate group, and host group
-
-Dynatrace Operator token: Enter the API token you created in Prerequisites
-
-For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
+  * Name: Defines the display name of your Kubernetes cluster
+  * Group: Defines a group that will be used for network zone, ActiveGate group, and host group
+  * Dynatrace Operator token: Enter the API token you created in Prerequisites
+  * For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
 
 Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
 
