@@ -25,6 +25,33 @@ Dynatrace webhook server validates Dynakube definitions for correctness.
 
 Note: Classic full-stack injection requires write access from the OneAgent pod to the Kubernetes node filesystem to detect and inject into newly deployed containers.
 
+### Prerequisites
+https://www.dynatrace.com/support/help/shortlink/k8s-dto-helm#prerequisites
+
+Install Helm version 3 on your local terminal
+
+https://helm.sh/docs/intro/install/
+
+Download installation script:
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+```
+
+Modify script permissions:
+```
+chmod 700 get_helm.sh
+```
+
+Execute script:
+```
+./get_helm.sh
+```
+
+Validate install:
+```
+helm version
+```
+
 ### Tokens and Permissions
 https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8#tokens
 
@@ -36,8 +63,25 @@ Create an API token in your Dynatrace environment and enable the following permi
 * Read settings (settings.read)
 * Write settings (settings.write)
 
-### Deploy Dynatrace Operator using the automated mode
-![classicFullStack](/guides/img/classicFullStack/deploy_dynatrace_kubernetes.png)
+### Deploy Dynatrace Operator using Helm chart
+
+Install the Dynatrace Helm repository.
+
+copy
+
+download
+helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
+Install Dynatrace Operator.
+You have two options:
+
+Option 1: Install Dynatrace Operator using the default values:
+
+
+copy
+
+download
+helm install dynatrace-operator dynatrace/dynatrace-operator --atomic --create-namespace -n dynatrace
+Option 2: For additional configuration to the Helm chart, edit the values.yaml sample from GitHub, then run the install command passing the YAML file as an argument:
 
 1. In the Dynatrace menu, go to Kubernetes.
 
