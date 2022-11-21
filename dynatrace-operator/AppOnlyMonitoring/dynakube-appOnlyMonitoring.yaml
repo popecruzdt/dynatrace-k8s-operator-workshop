@@ -40,7 +40,7 @@ spec:
   # Optional: Sets Network Zone for OneAgent and ActiveGate pods
   # Make sure networkZones are enabled on your cluster before (see https://www.dynatrace.com/support/help/setup-and-configuration/network-zones/network-zones-basic-info/)
   #
-  # networkZone: name-of-my-network-zone
+  networkZone: my-cluster-name
 
   # Optional: If enabled, and if Istio is installed on the Kubernetes environment, the
   # Operator will create the corresponding VirtualService and ServiceEntry objects to allow access
@@ -159,7 +159,7 @@ spec:
 
     # Optional: Sets the activation group for ActiveGate instances
     #
-    # group: ""
+    group: my-cluster-name
 
     # Optional: Defines a custom properties file providing either as a value or as a reference to a secret
     # If a reference to a secret is used, the key to the data must be 'customProperties'

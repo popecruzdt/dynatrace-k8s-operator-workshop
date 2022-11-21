@@ -17,7 +17,7 @@ Offers similar functionality as the classic full-stack injection (see limitation
 * Network zones aren't yet supported.
 * Tracing Istio sidecars and ingress gateways, or any other Envoy proxy instances isn't supported.
 
-Deployed resources
+##### Deployed resources
 
 Dynatrace Operator manages cloud-native full-stack injection after the following Deployed resources are deployed:
 

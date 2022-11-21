@@ -18,7 +18,7 @@ It's flexible. You get granular control over the instrumented pods using namespa
   * OneAgent monitors the memory, disk, CPU, and networking of processes within the container only.
 * Topology is limited to pods and containers.
 
-Deployed resources
+##### Deployed resources
 
 Dynatrace Operator manages automatic application-only injection after the following resources are deployed:
 
@@ -60,15 +60,15 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<AP
 ```
 5. Download the `dynakube` custom resource definition yaml for cloudNativeFullStack
 ```
-wget -O dynakube-cloudNativeFullStack https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/CloudNativeFullStack/dynakube-cloudNativeFullStack.yaml
+wget -O dynakube-appOnlyMonitoring https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/AppOnlyMonitoring/dynakube-appOnlyMonitoring.yaml
 ```
 6. Modify the custom resource definition (CRD) yaml to match your environment using `vi` or `nano`
 ```
-nano dynakube-cloudNativeFullStack
+nano dynakube-appOnlyMonitoring
 ```
 * Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
-* Modify `networkZone: my-cluster-name` with `<initials>-gke-cnfs`
-* Modify `group: my-cluster-name` with `<initials>-gke-cnfs`
+* Modify `networkZone: my-cluster-name` with `<initials>-gke-aom`
+* Modify `group: my-cluster-name` with `<initials>-gke-aom`
 7. Apply the CRD
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml
