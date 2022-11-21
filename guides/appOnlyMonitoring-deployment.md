@@ -18,7 +18,7 @@ It's flexible. You get granular control over the instrumented pods using namespa
   * OneAgent monitors the memory, disk, CPU, and networking of processes within the container only.
 * Topology is limited to pods and containers.
 
-##### Deployed resources
+##### Deployed resources:
 
 Dynatrace Operator manages automatic application-only injection after the following resources are deployed:
 
