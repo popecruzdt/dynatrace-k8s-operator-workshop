@@ -146,7 +146,7 @@ kubectl get pods -n dynatrace
 ```
 5. Apply label to application namespace
 ```
-kubectl label namespace springio dynatrace-auto-injection=disabled
+kubectl label namespace springio dynatrace-auto-injection=disabled --overwrite
 ```
 6. Delete the currently running application pods
 ```
@@ -206,7 +206,7 @@ kubectl get pods -n dynatrace
 ```
 5. Apply label to application namespace
 ```
-kubectl label namespace springio dynatrace-auto-injection=enabled
+kubectl label namespace springio dynatrace-auto-injection=enabled --overwrite
 ```
 6. Delete the currently running application pods
 ```

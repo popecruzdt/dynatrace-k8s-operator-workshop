@@ -187,10 +187,6 @@ spec:
     #
     # image: ""
 
-    # Optional: Sets the activation group for ActiveGate instances
-    #
-    # group: ""
-
     # Optional: Defines a custom properties file providing either as a value or as a reference to a secret
     # If a reference to a secret is used, the key to the data must be 'customProperties'
     #
