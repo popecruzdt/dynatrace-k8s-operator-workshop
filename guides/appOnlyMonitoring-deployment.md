@@ -71,11 +71,66 @@ nano dynakube-appOnlyMonitoring
 * Modify `group: my-cluster-name` with `<initials>-gke-aom`
 7. Apply the CRD
 ```
-kubectl apply -f dynakube-cloudNativeFullStack.yaml
+kubectl apply -f dynakube-appOnlyMonitoring.yaml
 ```
 8. Validate that all `dynakube` pods are in `Running` state
 ```
 kubectl get pods -n dynatrace
+```
+
+### Initiate Dynatrace App Only Monitoring with application pod restarts
+1. Get list of currently running application pods
+```
+kubectl get pods -n springio --field-selector="status.phase=Running"
+```
+2. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+
+### Disable automatic-injection on specific pod/workload
+To disable monitoring for selected pods, annotate the pods that should be excluded.
+
+##### Before
+```
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot
+  namespace: springio
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      name: springboot
+    spec:
+      containers:
+```
+
+##### After
+```
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot
+  namespace: springio
+spec:
+  ...
+  template:
+    metadata:
+      ...
+      name: springboot
+      annotations:
+        oneagent.dynatrace.com/inject: "false"
+    spec:
+      containers:
+```
+Apply the new configuration
+```
+kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/AppOnlyMonitoring/springboot-inject-false-springio.yaml
 ```
 
 ### Uninstalling the Dynatrace Operator
