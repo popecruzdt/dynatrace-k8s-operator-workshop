@@ -52,3 +52,19 @@ Create an API token in your Dynatrace environment and enable the following permi
 Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
 
 To see the deployment status, select Show deployment status.
+
+### Initiate Dynatrace Classic Full Stack Monitoring with application pod restarts
+1. Get list of currently running application pods
+```
+kubectl get pods -n springio --field-selector="status.phase=Running"
+```
+2. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+
+### Uninstalling the Dynatrace Operator
+1. Uninstall Dynatrace Operator
+```
+kubectl delete -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes.yaml
+```
