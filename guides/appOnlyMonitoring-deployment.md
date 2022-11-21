@@ -179,6 +179,7 @@ kubectl get pods -n dynatrace
 `feature.dynatrace.com/automatic-injection: "false"`
 ##### After
 `feature.dynatrace.com/automatic-injection: "true"`
+
 6. Apply the new configuration
 ```
 kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/AppOnlyMonitoring/springboot-inject-true-springio.yaml
