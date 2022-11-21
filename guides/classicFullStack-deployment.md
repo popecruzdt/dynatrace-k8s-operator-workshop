@@ -72,3 +72,7 @@ kubectl get pods -n springio --field-selector="status.phase=Running"
 ```
 kubectl delete -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes.yaml
 ```
+2. Delete the `dynatrace` namespace.
+```
+kubectl delete namespace dynatrace
+```

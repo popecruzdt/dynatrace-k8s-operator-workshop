@@ -125,7 +125,7 @@ spec:
     matchExpressions:
        - key: dynatrace-auto-injection
          operator: NotIn
-         values: [false]
+         values: [disabled]
 ```
 
 1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
@@ -146,7 +146,7 @@ kubectl get pods -n dynatrace
 ```
 5. Apply label to application namespace
 ```
-kubectl label namespace springio dynatrace-auto-injection=false
+kubectl label namespace springio dynatrace-auto-injection=disabled
 ```
 6. Delete the currently running application pods
 ```
@@ -185,7 +185,7 @@ spec:
   ...
   namespaceSelector:
     matchLabels:
-      dynatrace-auto-injection: true
+      dynatrace-auto-injection: enabled
 ```
 
 1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
@@ -206,7 +206,7 @@ kubectl get pods -n dynatrace
 ```
 5. Apply label to application namespace
 ```
-kubectl label namespace springio dynatrace-auto-injection=true
+kubectl label namespace springio dynatrace-auto-injection=enabled
 ```
 6. Delete the currently running application pods
 ```
