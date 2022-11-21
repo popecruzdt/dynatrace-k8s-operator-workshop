@@ -60,11 +60,11 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<AP
 ```
 5. Download the `dynakube` custom resource definition yaml for cloudNativeFullStack
 ```
-wget -O dynakube-appOnlyMonitoring https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/AppOnlyMonitoring/dynakube-appOnlyMonitoring.yaml
+wget -O dynakube-appOnlyMonitoring.yaml https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/AppOnlyMonitoring/dynakube-appOnlyMonitoring.yaml
 ```
 6. Modify the custom resource definition (CRD) yaml to match your environment using `vi` or `nano`
 ```
-nano dynakube-appOnlyMonitoring
+nano dynakube-appOnlyMonitoring.yaml
 ```
 * Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
 * Modify `networkZone: my-cluster-name` with `<initials>-gke-aom`
@@ -160,7 +160,7 @@ spec:
 
 1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
 ```
-nano dynakube-appOnlyMonitoring
+nano dynakube-appOnlyMonitoring.yaml
 ```
 2. Apply the CRD
 ```

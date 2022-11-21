@@ -63,11 +63,11 @@ kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<AP
 ```
 5. Download the `dynakube` custom resource definition yaml for cloudNativeFullStack
 ```
-wget -O dynakube-cloudNativeFullStack https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/CloudNativeFullStack/dynakube-cloudNativeFullStack.yaml
+wget -O dynakube-cloudNativeFullStack.yaml https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/CloudNativeFullStack/dynakube-cloudNativeFullStack.yaml
 ```
 6. Modify the custom resource definition (CRD) yaml to match your environment using `vi` or `nano`
 ```
-nano dynakube-cloudNativeFullStack
+nano dynakube-cloudNativeFullStack.yaml
 ```
 * Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
 * Modify `networkZone: my-cluster-name` with `<initials>-gke-cnfs`
@@ -79,6 +79,138 @@ kubectl apply -f dynakube-cloudNativeFullStack.yaml
 8. Validate that all `dynakube` pods are in `Running` state
 ```
 kubectl get pods -n dynatrace
+```
+
+### Initiate Dynatrace Cloud Native Full Stack Monitoring with application pod restarts
+1. Get list of currently running application pods
+```
+kubectl get pods -n springio --field-selector="status.phase=Running"
+```
+2. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+
+### Disable automatic-injection on specific namespaces (opt-out approach)
+If you don't want Dynatrace Operator to inject OneAgent in a pod belonging to specific namespaces, you can set the namespaceSelector parameter in the DynaKube custom resource, and disable monitoring for specific namespaces that have the chosen label.
+
+##### Before
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+  ...
+  # namespaceSelector:
+  #   matchLabels:
+  #     app: my-app
+  #   matchExpressions:
+  #    - key: app
+  #      operator: In
+  #      values: [my-frontend, my-backend, my-database]
+```
+
+##### After
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+  ...
+  namespaceSelector:
+    matchExpressions:
+       - key: dynatrace-auto-injection
+         operator: NotIn
+         values: [false]
+```
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-cloudNativeFullStack.yaml
+```
+2. Apply the CRD
+```
+kubectl apply -f dynakube-cloudNativeFullStack.yaml
+```
+3. Validate that all `dynakube` pods are in `Running` state
+```
+kubectl get pods -n dynatrace
+```
+4. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+5. Apply label to application namespace
+```
+kubectl label namespace springio dynatrace-auto-injection=false
+```
+6. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+
+### Disable automatic-injection by default, enable on specific namespaces (opt-in approach)
+If you don't want Dynatrace Operator to inject OneAgent in all namespaces, you can set the namespaceSelector parameter in the DynaKube custom resource, and enable monitoring for specific namespaces that have the chosen label.
+
+##### Before
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+  ...
+  # namespaceSelector:
+  #   matchLabels:
+  #     app: my-app
+  #   matchExpressions:
+  #    - key: app
+  #      operator: In
+  #      values: [my-frontend, my-backend, my-database]
+```
+
+##### After
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+  ...
+  namespaceSelector:
+    matchLabels:
+      dynatrace-auto-injection: true
+```
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-cloudNativeFullStack.yaml
+```
+2. Apply the CRD
+```
+kubectl apply -f dynakube-cloudNativeFullStack.yaml
+```
+3. Validate that all `dynakube` pods are in `Running` state
+```
+kubectl get pods -n dynatrace
+```
+4. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+5. Apply label to application namespace
+```
+kubectl label namespace springio dynatrace-auto-injection=true
+```
+6. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
 ```
 
 ### Uninstalling the Dynatrace Operator
