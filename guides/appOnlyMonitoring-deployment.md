@@ -1,33 +1,30 @@
-https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#cloud-native
+https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#auto
 
-## Cloud native full-stack injection
+## Application-only monitoring using CSI driver
 
-![cloudNativeFullStack](/guides/img/cloudNativeFullStack/cloudNativeFullStack_diagram.png)
+![appOnlyMonitoring](/guides/img/appOnlyMonitoring/appOnlyMonitoring_diagram.png)
 
 ### Capabilities and limitations
 
 ##### Capabilities:
 
-Offers similar functionality as the classic full-stack injection (see limitations below).  Uses mutating webhooks to inject code modules into application pods.
+It's engineered for Kubernetes. Dynatrace injects into pods using the Kubernetes admission controller, which injects a Dynatrace code module into application containers.
+
+It's flexible. You get granular control over the instrumented pods using namespaces and annotations. You can easily route pod metrics to different Dynatrace environments within the same Kubernetes cluster.
 
 ##### Limitations:
 
-* Diagnostic files ("support archives") for application pods aren't yet supported.
-* Container monitoring rules aren't yet supported (the Dynakube label selector parameter provides similar functionality).
-* Network zones aren't yet supported.
-* Tracing Istio sidecars and ingress gateways, or any other Envoy proxy instances isn't supported.
+* Hosts (Kubernetes cluster nodes) are not monitored.
+  * OneAgent monitors the memory, disk, CPU, and networking of processes within the container only.
+* Topology is limited to pods and containers.
 
 Deployed resources
 
-Dynatrace Operator manages cloud-native full-stack injection after the following Deployed resources are deployed:
-
-OneAgent, deployed as a DaemonSet, collects host metrics from Kubernetes nodes.
+Dynatrace Operator manages automatic application-only injection after the following resources are deployed:
 
 Dynatrace webhook server modifies pod definitions to include Dynatrace code modules for application observability.
 
-Dynatrace CSI driver deployed as a DaemonSet, provides writable volume storage for OneAgent and OneAgent binaries to pods.
-
-Dynatrace Activegate is used for routing, as well as for monitoring Kubernetes objects by collecting data (metrics, events, status) from the Kubernetes API.
+Dynatrace ActiveGate is used for routing, as well as for monitoring Kubernetes objects by collecting data (metrics, events, status) from the Kubernetes API.
 
 ### Tokens and Permissions
 https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8#tokens
