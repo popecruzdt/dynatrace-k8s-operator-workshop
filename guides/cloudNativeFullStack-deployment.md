@@ -80,3 +80,25 @@ kubectl apply -f dynakube-cloudNativeFullStack.yaml
 ```
 kubectl get pods -n dynatrace
 ```
+
+### Uninstalling the Dynatrace Operator
+1. Remove `dynakube` custom resources and clean up all remaining Dynatrace Operator–specific objects.
+```
+kubectl delete dynakube --all -n dynatrace
+```
+2. Wait until pods are deleted
+```
+kubectl -n dynatrace wait pod --for=condition=delete --selector=app.kubernetes.io/name=oneagent,app.kubernetes.io/managed-by=dynatrace-operator --timeout=300s
+```
+3. Uninstall the CSI driver
+```
+kubectl delete -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes-csi.yaml
+```
+4. Uninstall Dynatrace Operator
+```
+kubectl delete -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes.yaml
+```
+5. Delete the `dynatrace` namespace.
+```
+kubectl delete namespace dynatrace
+```
