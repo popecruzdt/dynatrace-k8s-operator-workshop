@@ -40,20 +40,43 @@ Create an API token in your Dynatrace environment and enable the following permi
 * Read settings (settings.read)
 * Write settings (settings.write)
 
+Create another API token to serve as the `DataIngestToken` and enable the following permission:
+* Ingest metrics (metrics.ingest)
+
 ### Deploy Dynatrace Operator manually
 
 1. Create the `dynatrace` namespace:
 ```
 kubectl create namespace dynatrace
 ```
-2. Select Connect automatically via Dynatrace Operator.
-
-3. Enter the following details.
-  * Name: Defines the display name of your Kubernetes cluster
-  * Group: Defines a group that will be used for network zone, ActiveGate group, and host group
-  * Dynatrace Operator token: Enter the API token you created in Prerequisites
-  * For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
-
-Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
-
-To see the deployment status, select Show deployment status.
+2. Install the Dynatrace Operator
+```
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes.yaml
+```
+3. Install the CSI Driver
+```
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes-csi.yaml
+```
+4. Create the `secret` containing the API token and DataIngest token values
+```
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<API_TOKEN>" --from-literal="dataIngestToken=<DATA_INGEST_TOKEN>"
+```
+5. Download the `dynakube` custom resource definition yaml for cloudNativeFullStack
+```
+wget -O dynakube-cloudNativeFullStack https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/CloudNativeFullStack/dynakube-cloudNativeFullStack.yaml
+```
+6. Modify the custom resource definition (CRD) yaml to match your environment using `vi` or `nano`
+```
+nano dynakube-cloudNativeFullStack
+```
+* Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
+* Modify `networkZone: my-cluster-name` with `<initials>-gke-cnfs`
+* Modify `group: my-cluster-name` with `<initials>-gke-cnfs`
+7. Apply the CRD
+```
+kubectl apply -f dynakube-cloudNativeFullStack.yaml
+```
+8. Validate that all `dynakube` pods are in `Running` state
+```
+kubectl get pods -n dynatrace
+```
