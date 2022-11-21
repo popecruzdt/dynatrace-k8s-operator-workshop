@@ -88,7 +88,7 @@ kubectl get pods -n springio --field-selector="status.phase=Running"
  kubectl delete pods -n springio --field-selector="status.phase=Running"
 ```
 
-### Disable automatic-injection on specific pod/workload
+### Disable automatic-injection on specific pod/workload (opt-out approach)
 To disable monitoring for selected pods, annotate the pods that should be excluded.
 
 ##### Before
@@ -131,6 +131,57 @@ spec:
 Apply the new configuration
 ```
 kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/AppOnlyMonitoring/springboot-inject-false-springio.yaml
+```
+
+### Disable automatic-injection by default, enable on specific pod/workload (opt-in approach)
+Dynatrace Operator can be set to monitor namespaces without injecting into any pods, so you can choose which pods to monitor.
+
+##### Before
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+spec:
+```
+
+##### After
+```
+apiVersion: dynatrace.com/v1beta1
+kind: DynaKube
+metadata:
+  name: dynakube
+  namespace: dynatrace
+  annotations:
+    feature.dynatrace.com/automatic-injection: "false"
+spec:
+```
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-appOnlyMonitoring
+```
+2. Apply the CRD
+```
+kubectl apply -f dynakube-appOnlyMonitoring.yaml
+```
+3. Validate that all `dynakube` pods are in `Running` state
+```
+kubectl get pods -n dynatrace
+```
+4. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+5. Update the application pod definition
+##### Before
+`feature.dynatrace.com/automatic-injection: "false"`
+##### After
+`feature.dynatrace.com/automatic-injection: "true"`
+6. Apply the new configuration
+```
+kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/AppOnlyMonitoring/springboot-inject-true-springio.yaml
 ```
 
 ### Uninstalling the Dynatrace Operator
