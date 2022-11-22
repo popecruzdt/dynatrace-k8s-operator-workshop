@@ -42,6 +42,17 @@
 ![gke_metadata_labels](/guides/img/gkeCluster/gke_metadata_labels.png)
 
 ### Connect to cluster with Cloud Shell
+1. From the `Cluster details` page, click **Connect**
+
+![gke_cluster_details](/guides/img/gkeCluster/gke_cluster_details.png)
+
+2. From the `Connect to the cluster` page, click **RUN IN CLOUD SHELL**
+
+![gke_cluster_connect](/guides/img/gkeCluster/gke_cluster_connect.png)
+
+3. Cloud shell will automatically populate the gcloud connect command, execute it
+
+![gke_cloud_shell](/guides/img/gkeCluster/gke_cloud_shell.png)
 
 ### Deploy application workloads
 1. Create the application namespace
