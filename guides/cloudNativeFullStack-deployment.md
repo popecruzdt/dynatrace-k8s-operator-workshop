@@ -76,17 +76,21 @@ nano dynakube-cloudNativeFullStack.yaml
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml
 ```
-8. Validate that all `dynakube` pods are in `Running` state
+8. Validate that all `dynakube` pods are in `Running` state and `Ready`
 ```
 kubectl get pods -n dynatrace
 ```
 
 ### Initiate Dynatrace Cloud Native Full Stack Monitoring with application pod restarts
-1. Get list of currently running application pods
+1. Apply application pod configuration to base state
+```
+kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/AppOnlyMonitoring/springio-deploy.yaml
+```
+2. Get list of currently running application pods
 ```
 kubectl get pods -n springio --field-selector="status.phase=Running"
 ```
-2. Delete the currently running application pods
+3. Delete the currently running application pods
 ```
  kubectl delete pods -n springio --field-selector="status.phase=Running"
 ```
@@ -136,7 +140,7 @@ nano dynakube-cloudNativeFullStack.yaml
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml
 ```
-3. Validate that all `dynakube` pods are in `Running` state
+3. Validate that all `dynakube` pods are in `Running` state and `Ready`
 ```
 kubectl get pods -n dynatrace
 ```
@@ -196,7 +200,7 @@ nano dynakube-cloudNativeFullStack.yaml
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml
 ```
-3. Validate that all `dynakube` pods are in `Running` state
+3. Validate that all `dynakube` pods are in `Running` state and `Ready`
 ```
 kubectl get pods -n dynatrace
 ```

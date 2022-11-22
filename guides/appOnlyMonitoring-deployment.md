@@ -17,6 +17,7 @@ It's flexible. You get granular control over the instrumented pods using namespa
 * Hosts (Kubernetes cluster nodes) are not monitored.
   * OneAgent monitors the memory, disk, CPU, and networking of processes within the container only.
 * Topology is limited to pods and containers.
+* Logs are not monitored
 
 ##### Deployed resources:
 
@@ -58,7 +59,7 @@ kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/downlo
 ```
 kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<API_TOKEN>" --from-literal="dataIngestToken=<DATA_INGEST_TOKEN>"
 ```
-5. Download the `dynakube` custom resource definition yaml for cloudNativeFullStack
+5. Download the `dynakube` custom resource definition yaml for appOnlyMonitoring
 ```
 wget -O dynakube-appOnlyMonitoring.yaml https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/AppOnlyMonitoring/dynakube-appOnlyMonitoring.yaml
 ```
@@ -73,7 +74,7 @@ nano dynakube-appOnlyMonitoring.yaml
 ```
 kubectl apply -f dynakube-appOnlyMonitoring.yaml
 ```
-8. Validate that all `dynakube` pods are in `Running` state
+8. Validate that all `dynakube` pods are in `Running` state and `Ready`
 ```
 kubectl get pods -n dynatrace
 ```
