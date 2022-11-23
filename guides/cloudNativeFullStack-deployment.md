@@ -1,6 +1,6 @@
 https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#cloud-native
 
-## Cloud native full-stack injection
+## Cloud Native Full Stack Injection
 
 ![cloudNativeFullStack](/guides/img/cloudNativeFullStack/cloudNativeFullStack_diagram.png)
 

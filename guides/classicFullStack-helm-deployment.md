@@ -1,6 +1,6 @@
 https://www.dynatrace.com/support/help/shortlink/k8s-dto-helm
 
-## Classic full-stack injection using Helm chart
+## Classic Full Stack Injection using Helm chart
 
 Installing the Dynatrace Operator using Helm chart only installs the Dynatrace Operator.  It does not install or manage the configuration of the dynakube resource.  The dynakube resource must be configured using `kubectl` using the same methods as if you weren't using Helm.
 

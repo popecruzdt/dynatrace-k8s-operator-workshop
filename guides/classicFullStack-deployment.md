@@ -1,6 +1,6 @@
 https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#classic
 
-## Classic full-stack injection
+## Classic Full Stack Injection
 ##### recommended
 
 ![classicFullStack](/guides/img/classicFullStack/classicFullStack_diagram.png)

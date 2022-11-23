@@ -1,6 +1,6 @@
 https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#auto
 
-## Application-only monitoring using CSI driver
+## Application-only Monitoring using CSI driver
 
 ![appOnlyMonitoring](/guides/img/appOnlyMonitoring/appOnlyMonitoring_diagram.png)
 
