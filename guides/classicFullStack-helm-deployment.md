@@ -12,9 +12,12 @@ Installing the Dynatrace Operator using Helm chart only installs the Dynatrace O
 
 It has a seamless host (Kubernetes node) integration. Instrumented pods maintain their taxonomic relationship with hosts and host metrics. Host agents complement code modules with OOM detection, disk and storage monitoring, network monitoring, and more.
 It's comprehensive. This all-in-one approach includes Kubernetes cluster monitoring, distributed tracing, fault domain isolation, and deep code-level insights using a single deployment configuration across your clusters.
-Limitations: There’s a startup dependency between the container in which OneAgent is deployed and application containers to be instrumented (for example, containers that have deep process monitoring enabled). The OneAgent container must be started and the oneagenthelper process must be running before the application container is launched so that the application can be properly instrumented.
 
-Deployed resources:
+##### Limitations:
+
+There’s a startup dependency between the container in which OneAgent is deployed and application containers to be instrumented (for example, containers that have deep process monitoring enabled). The OneAgent container must be started and the oneagenthelper process must be running before the application container is launched so that the application can be properly instrumented.
+
+##### Deployed resources:
 
 Dynatrace Operator manages classic full-stack injection after the following resources are deployed.
 
@@ -33,22 +36,22 @@ Install Helm version 3 on your local terminal
 
 https://helm.sh/docs/intro/install/
 
-Download installation script:
+1. Download installation script:
 ```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 ```
 
-Modify script permissions:
+2. Modify script permissions:
 ```
 chmod 700 get_helm.sh
 ```
 
-Execute script:
+3. Execute script:
 ```
 ./get_helm.sh
 ```
 
-Validate install:
+4. Validate install:
 ```
 helm version
 ```
@@ -66,11 +69,11 @@ Create an API token in your Dynatrace environment and enable the following permi
 
 ### Deploy Dynatrace Operator using Helm chart with default values (this will fail)
 
-1. Install the Dynatrace Helm repository.
+1. Install the Dynatrace Operator Helm repository on local terminal
 ```
 helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
 ```
-2. Install the Dynatrace Operator Helm chart with default values
+2. Install the Dynatrace Operator Helm chart with default values on GKE cluster
 ```
 helm install dynatrace-operator dynatrace/dynatrace-operator --atomic --create-namespace -n dynatrace --debug
 ```
@@ -86,7 +89,7 @@ kubectl delete namespace dynatrace
 
 1. Download the Dynatrace Operator Helm chart default values yaml
 ```
-wget -O helm-values.yaml
+wget -O helm-values.yaml https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/ClassicFullStack/helm-values.yaml
 ```
 2. Modify the `helm-values.yaml`
 ```
@@ -94,11 +97,11 @@ nano helm-values.yaml
 ```
   * Modify the `installCRD` value from `false` to `true` (this will fix the issue)
   * Modify the `securityContextConstraints.enabled` from `true` to `false` (optional, but we aren't using OpenShift)
-3. Install the Dynatrace Helm repository.
+3. Install the Dynatrace Helm repository on local terminal
 ```
 helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
 ```
-4. Install the Dynatrace Operator Helm chart with custom values
+4. Install the Dynatrace Operator Helm chart with custom values on GKE cluster
 ```
 helm install dynatrace-operator dynatrace/dynatrace-operator -f helm-values.yaml --atomic --create-namespace -n dynatrace --debug
 ```
