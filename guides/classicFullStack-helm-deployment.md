@@ -1,7 +1,8 @@
-https://www.dynatrace.com/support/help/shortlink/dto-deploy-options-k8s#classic
+https://www.dynatrace.com/support/help/shortlink/k8s-dto-helm
 
-## Classic full-stack injection
-##### recommended
+## Classic full-stack injection using Helm chart
+
+Installing the Dynatrace Operator using Helm chart only installs the Dynatrace Operator.  It does not install or manage the configuration of the dynakube resource.  The dynakube resource must be configured using `kubectl` using the same methods as if you weren't using Helm.
 
 ![classicFullStack](/guides/img/classicFullStack/classicFullStack_diagram.png)
 
@@ -63,36 +64,85 @@ Create an API token in your Dynatrace environment and enable the following permi
 * Read settings (settings.read)
 * Write settings (settings.write)
 
-### Deploy Dynatrace Operator using Helm chart
+### Deploy Dynatrace Operator using Helm chart with default values (this will fail)
 
-Install the Dynatrace Helm repository.
-
-copy
-
-download
+1. Install the Dynatrace Helm repository.
+```
 helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
-Install Dynatrace Operator.
-You have two options:
+```
+2. Install the Dynatrace Operator Helm chart with default values
+```
+helm install dynatrace-operator dynatrace/dynatrace-operator --atomic --create-namespace -n dynatrace --debug
+```
 
-Option 1: Install Dynatrace Operator using the default values:
+The installation fails because the custom resource definition (CRD) is missing.  By default, the Helm chart is configured not to install the CRD.  This can be changed, but requires passing `-f values.yaml` with the appropriate configuration.
 
+3. Delete the `dynatrace` namespace
+```
+kubectl delete namespace dynatrace
+```
 
-copy
+### Deploy Dynatrace Operator using Helm chart with custom values (this *should* work)
 
-download
-helm install dynatrace-operator dynatrace/dynatrace-operator --atomic --create-namespace -n dynatrace
-Option 2: For additional configuration to the Helm chart, edit the values.yaml sample from GitHub, then run the install command passing the YAML file as an argument:
+1. Download the Dynatrace Operator Helm chart default values yaml
+```
+wget -O helm-values.yaml
+```
+2. Modify the `helm-values.yaml`
+```
+nano helm-values.yaml
+```
+  * Modify the `installCRD` value from `false` to `true` (this will fix the issue)
+  * Modify the `securityContextConstraints.enabled` from `true` to `false` (optional, but we aren't using OpenShift)
+3. Install the Dynatrace Helm repository.
+```
+helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-operator/master/config/helm/repos/stable
+```
+4. Install the Dynatrace Operator Helm chart with custom values
+```
+helm install dynatrace-operator dynatrace/dynatrace-operator -f helm-values.yaml --atomic --create-namespace -n dynatrace --debug
+```
+5. Validate the Dynatrace Operator pods are running and ready
+```
+kubectl get pods -n dynatrace
+```
 
-1. In the Dynatrace menu, go to Kubernetes.
+### Deploy classicFullStack dynakube resource using kubectl
 
-2. Select Connect automatically via Dynatrace Operator.
+1. Create the `secret` containing the API token value
+```
+kubectl -n dynatrace create secret generic dynakube --from-literal="apiToken=<API_TOKEN>"
+```
+5. Download the `dynakube` custom resource definition yaml for classicFullStack
+```
+wget -O dynakube-classicFullStack.yaml https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/dynatrace-operator/ClassicFullStack/dynakube-classicFullStack.yaml
+```
+6. Modify the custom resource definition (CRD) yaml to match your environment using `vi` or `nano`
+```
+nano dynakube-classicFullStack.yaml
+```
+* Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
+* Modify `networkZone: my-cluster-name` with `<initials>-gke-helm`
+* Modify `group: my-cluster-name` with `<initials>-gke-helm`
+7. Apply the CRD
+```
+kubectl apply -f dynakube-classicFullStack.yaml
+```
+8. Validate that all `dynakube` pods are in `Running` state and `Ready`
+```
+kubectl get pods -n dynatrace
+```
 
-3. Enter the following details.
-  * Name: Defines the display name of your Kubernetes cluster
-  * Group: Defines a group that will be used for network zone, ActiveGate group, and host group
-  * Dynatrace Operator token: Enter the API token you created in Prerequisites
-  * For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
-
-Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
-
-To see the deployment status, select Show deployment status.
+### Initiate Dynatrace Classic Full Stack Monitoring with application pod restarts
+1. Apply application pod configuration to base state
+```
+kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/ClassicFullStack/springio-deploy.yaml
+```
+2. Get list of currently running application pods
+```
+kubectl get pods -n springio --field-selector="status.phase=Running"
+```
+3. Delete the currently running application pods
+```
+ kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
