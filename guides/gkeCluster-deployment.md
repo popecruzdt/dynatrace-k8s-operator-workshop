@@ -91,6 +91,8 @@ kubectl get pods -n springio
 ```
 kubectl logs -n springio springboot-<pod-id>
 ```
+Kubernetes Events: https://www.dynatrace.com/news/blog/extend-visibility-into-workload-and-cluster-health-by-leveraging-native-kubernetes-events/
+
 8. Change the `springboot` deployment to use the original container image `springio/gs-spring-boot-docker`
 ```
 kubectl set image deployment/springboot springboot=springio/gs-spring-boot-docker -n springio
@@ -99,6 +101,8 @@ kubectl set image deployment/springboot springboot=springio/gs-spring-boot-docke
 ```
 kubectl scale deployment/springboot --replicas=2 -n springio
 ```
+Scaling a Deployment: https://www.dynatrace.com/news/blog/extend-visibility-into-workload-and-cluster-health-by-leveraging-native-kubernetes-events/
+
 10. Check the status of the application workload pods
 ```
 kubectl get pods -n springio
