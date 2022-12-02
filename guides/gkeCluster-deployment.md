@@ -66,6 +66,7 @@ Kubernetes Namespaces: https://kubernetes.io/docs/concepts/overview/working-with
 kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/springio-deploy.yaml
 ```
 Source: https://github.com/popecruzdt/dynatrace-k8s-operator-workshop/blob/main/spring/springio-deploy.yaml
+
 Kubernetes Deployments: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
 3. Check the status of the application workload pods
