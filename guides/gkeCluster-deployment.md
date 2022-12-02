@@ -74,3 +74,32 @@ Kubernetes Deployments: https://kubernetes.io/docs/concepts/workloads/controller
 kubectl get pods -n springio
 ```
 Kubernetes Pods: https://kubernetes.io/docs/concepts/workloads/pods/
+
+4. Describe the deployment configuration for `springboot`
+```
+kubectl describe deployment springboot -n springio
+```
+5. Update the `springboot` deployment with a different container image `springio/petclinic`
+```
+kubectl set image deployment/springboot springboot=springio/petclinic -n springio
+```
+6. Check the status of the application workload pods
+```
+kubectl get pods -n springio
+```
+7. Check the pod logs for `springboot` deployment, replace `springboot-<pod-id>` with your pod id
+```
+kubectl logs -n springio springboot-<pod-id>
+```
+8. Change the `springboot` deployment to use the original container image `springio/gs-spring-boot-docker`
+```
+kubectl set image deployment/springboot springboot=springio/gs-spring-boot-docker -n springio
+```
+9. Increase the number of pods from `1` to `2` for `springboot` deployment by scaling the `replicaSet`
+```
+kubectl scale deployment/springboot --replicas=2 -n springio
+```
+10. Check the status of the application workload pods
+```
+kubectl get pods -n springio
+```
