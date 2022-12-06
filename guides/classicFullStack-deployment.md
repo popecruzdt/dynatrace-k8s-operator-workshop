@@ -49,13 +49,41 @@ Create an API token in your Dynatrace environment and enable the following permi
 
 3. Enter the following details.
   * Name: Defines the display name of your Kubernetes cluster
+    * `<initials>-gke-cfs`
   * Group: Defines a group that will be used for network zone, ActiveGate group, and host group
+    * `<initials>-gke-cfs`
   * Dynatrace Operator token: Enter the API token you created in Prerequisites
   * For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
+    * `Enabled`
 
-Under Kubernetes/OpenShift, select Download dynakube.yaml, then copy the code block created by Dynatrace based on your input from previous steps and run it in your terminal. Be sure to execute the commands in the same directory where you downloaded the YAML, or adapt the commands to link to the location of the YAML.
+4. Download `dynakube.yaml`
 
-To see the deployment status, select Show deployment status.
+5. Open `dynakube.yaml` in a text editor.  Copy the entire contents to clipboard.  Create a new file on your terminal where `kubectl` is installed.  Paste the contents and save.
+```
+nano dynakube.yaml
+```
+
+6. Create the `dynatrace` namespace
+```
+kubectl create namespace dynatrace
+```
+
+7. Deploy the Dynatrace Operator
+```
+kubectl apply -f https://github.com/Dynatrace/dynatrace-operator/releases/download/v0.9.1/kubernetes.yaml
+```
+
+8. Wait for the Dynatrace Operator pods to be ready
+```
+kubectl -n dynatrace wait pod --for=condition=ready --selector=app.kubernetes.io/name=dynatrace-operator,app.kubernetes.io/component=webhook --timeout=300s
+```
+
+9. Create the `dynakube` custom resource for Classic Full Stack Monitoring approach
+```
+kubectl apply -f dynakube.yaml
+```
+
+In the Dynatrace UI, to see the deployment status, select Show deployment status.
 
 ### Initiate Dynatrace Classic Full Stack Monitoring with application pod restarts
 1. Get list of currently running application pods
