@@ -53,6 +53,7 @@ Create an API token in your Dynatrace environment and enable the following permi
   * Group: Defines a group that will be used for network zone, ActiveGate group, and host group
     * `<initials>-gke-cfs`
   * Dynatrace Operator token: Enter the API token you created in Prerequisites
+  * Data ingest token: **this is not needed for classic full stack approach**
   * For **GKE**, Anthos, CaaS, TGKI, and IKS, turn on Enable volume storage
     * `Enabled`
 
