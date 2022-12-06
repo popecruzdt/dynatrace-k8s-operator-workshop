@@ -103,7 +103,7 @@ helm repo add dynatrace https://raw.githubusercontent.com/Dynatrace/dynatrace-op
 ```
 4. Install the Dynatrace Operator Helm chart with custom values on GKE cluster
 ```
-helm install dynatrace-operator dynatrace/dynatrace-operator -f helm-values.yaml --atomic --create-namespace -n dynatrace --debug
+helm install dynatrace-operator dynatrace/dynatrace-operator -f helm-values.yaml --atomic --create-namespace -n dynatrace --version 0.9.1 --debug
 ```
 5. Validate the Dynatrace Operator pods are running and ready
 ```
@@ -148,4 +148,10 @@ kubectl get pods -n springio --field-selector="status.phase=Running"
 3. Delete the currently running application pods
 ```
  kubectl delete pods -n springio --field-selector="status.phase=Running"
+```
+
+### Uninstalling the Dynatrace Operator
+1. Uninstall Dynatrace Operator helm chart from cluster
+```
+helm uninstall dynatrace-operator --namespace dynatrace
 ```
