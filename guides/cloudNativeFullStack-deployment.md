@@ -127,9 +127,9 @@ spec:
   ...
   namespaceSelector:
     matchExpressions:
-       - key: dynatrace-auto-injection
-         operator: NotIn
-         values: [disabled]
+     - key: dynatrace-auto-injection
+       operator: NotIn
+       values: [disabled]
 ```
 
 1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
