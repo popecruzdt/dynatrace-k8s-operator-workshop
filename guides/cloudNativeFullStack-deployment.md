@@ -84,7 +84,7 @@ kubectl get pods -n dynatrace
 ### Initiate Dynatrace Cloud Native Full Stack Monitoring with application pod restarts
 1. Apply application pod configuration to base state
 ```
-kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/cloudNativeFullStack/springio-deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-operator-workshop/main/spring/CloudNativeFullStack/springio-deploy.yaml
 ```
 2. Get list of currently running application pods
 ```
