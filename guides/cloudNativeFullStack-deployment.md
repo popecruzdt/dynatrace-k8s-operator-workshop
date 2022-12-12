@@ -98,6 +98,15 @@ kubectl get pods -n springio --field-selector="status.phase=Running"
 ### Disable automatic-injection on specific namespaces (opt-out approach)
 If you don't want Dynatrace Operator to inject OneAgent in a pod belonging to specific namespaces, you can set the namespaceSelector parameter in the DynaKube custom resource, and disable monitoring for specific namespaces that have the chosen label.
 
+https://www.dynatrace.com/support/help/shortlink/dto-config-k8s#annotate
+
+This configuration is applicable to both `cloudNativeFullStack` and `appOnlyMonitoring`
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-cloudNativeFullStack.yaml
+```
+
 ##### Before
 ```
 apiVersion: dynatrace.com/v1beta1
@@ -132,10 +141,6 @@ spec:
        values: [disabled]
 ```
 
-1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
-```
-nano dynakube-cloudNativeFullStack.yaml
-```
 2. Apply the CRD
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml
@@ -159,6 +164,15 @@ kubectl label namespace springio dynatrace-auto-injection=disabled --overwrite
 
 ### Disable automatic-injection by default, enable on specific namespaces (opt-in approach)
 If you don't want Dynatrace Operator to inject OneAgent in all namespaces, you can set the namespaceSelector parameter in the DynaKube custom resource, and enable monitoring for specific namespaces that have the chosen label.
+
+https://www.dynatrace.com/support/help/shortlink/dto-config-k8s#annotate
+
+This configuration is applicable to both `cloudNativeFullStack` and `appOnlyMonitoring`
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-cloudNativeFullStack.yaml
+```
 
 ##### Before
 ```
@@ -192,10 +206,6 @@ spec:
       dynatrace-auto-injection: enabled
 ```
 
-1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
-```
-nano dynakube-cloudNativeFullStack.yaml
-```
 2. Apply the CRD
 ```
 kubectl apply -f dynakube-cloudNativeFullStack.yaml

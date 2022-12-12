@@ -3,9 +3,9 @@ kind: DynaKube
 metadata:
   name: dynakube
   namespace: dynatrace
-  # Optional: necessary in case of a node using cgroup V2
-  # annotations:
-  #   feature.dynatrace.com/oneagent-privileged: "true"
+  annotations:
+    feature.dynatrace.com/automatic-kubernetes-api-monitoring: "true"
+    feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "my-cluster-name"
 spec:
   # Dynatrace apiUrl including the `/api` path at the end.
   # For SaaS, set `YOUR_ENVIRONMENT_ID` to your environment ID.
