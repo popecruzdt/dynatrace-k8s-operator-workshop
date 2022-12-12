@@ -124,6 +124,7 @@ wget -O dynakube-classicFullStack.yaml https://raw.githubusercontent.com/popecru
 ```
 nano dynakube-classicFullStack.yaml
 ```
+* Modify `feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "my-cluster-name"` with `<initials>-gke-helm`
 * Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
 * Modify `networkZone: my-cluster-name` with `<initials>-gke-helm`
 * Modify `group: my-cluster-name` with `<initials>-gke-helm`

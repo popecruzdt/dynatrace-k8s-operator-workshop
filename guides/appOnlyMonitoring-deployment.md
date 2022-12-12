@@ -67,6 +67,7 @@ wget -O dynakube-appOnlyMonitoring.yaml https://raw.githubusercontent.com/popecr
 ```
 nano dynakube-appOnlyMonitoring.yaml
 ```
+* Modify `feature.dynatrace.com/automatic-kubernetes-api-monitoring-cluster-name: "my-cluster-name"` with `<initials>-gke-aom`
 * Modify `apiUrl: https://ENVIRONMENTID.live.dynatrace.com/api`
 * Modify `networkZone: my-cluster-name` with `<initials>-gke-aom`
 * Modify `group: my-cluster-name` with `<initials>-gke-aom`
