@@ -100,6 +100,10 @@ kubectl get pods -n springio --field-selector="status.phase=Running"
 ### Disable automatic-injection on specific pod/workload (opt-out approach)
 To disable monitoring for selected pods, annotate the pods that should be excluded.
 
+https://www.dynatrace.com/support/help/shortlink/dto-config-k8s#monitor-all-namespaces-except-selected-pods
+
+This configuration is applicable to both `cloudNativeFullStack` and `appOnlyMonitoring`
+
 ##### Before
 ```
 ---
@@ -145,6 +149,15 @@ kubectl apply -f https://raw.githubusercontent.com/popecruzdt/dynatrace-k8s-oper
 ### Disable automatic-injection by default, enable on specific pod/workload (opt-in approach)
 Dynatrace Operator can be set to monitor namespaces without injecting into any pods, so you can choose which pods to monitor.
 
+https://www.dynatrace.com/support/help/shortlink/dto-config-k8s#monitor-only-specific-pods
+
+This configuration is applicable to both `cloudNativeFullStack` and `appOnlyMonitoring`
+
+1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
+```
+nano dynakube-appOnlyMonitoring.yaml
+```
+
 ##### Before
 ```
 apiVersion: dynatrace.com/v1beta1
@@ -167,10 +180,6 @@ metadata:
 spec:
 ```
 
-1. Modify the custom resource definition (CRD) yaml using `vi` or `nano`
-```
-nano dynakube-appOnlyMonitoring.yaml
-```
 2. Apply the CRD
 ```
 kubectl apply -f dynakube-appOnlyMonitoring.yaml
